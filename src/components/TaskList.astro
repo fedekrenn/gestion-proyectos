@@ -1,15 +1,5 @@
 ---
-const { userRole } = Astro.props;
 
-// Simulación de tareas iniciales
-const initialTasks = [
-  { id: 1, title: 'Revisar informes', assignedTo: 'Jefe', status: 'En progreso' },
-  { id: 2, title: 'Supervisar proyecto A', assignedTo: 'Supervisor', status: 'Pendiente' },
-  { id: 3, title: 'Analizar datos', assignedTo: 'Analista', status: 'Completada' },
-  { id: 4, title: 'Preparar presentación', assignedTo: 'Jefe', status: 'Pendiente' },
-  { id: 5, title: 'Coordinar equipo', assignedTo: 'Supervisor', status: 'En progreso' },
-  { id: 6, title: 'Recopilar información', assignedTo: 'Analista', status: 'En progreso' },
-];
 ---
 
 <div class="task-container">
@@ -17,7 +7,7 @@ const initialTasks = [
     <h2>Mis Tareas</h2>
     <div id="myTasks"></div>
     <form id="addTaskForm">
-      <input type="text" id="newTaskTitle" placeholder="Nueva tarea" required>
+      <input type="text" id="newTaskTitle" placeholder="Nueva tarea" required />
       <button type="submit">Agregar Tarea</button>
     </form>
   </div>
@@ -29,14 +19,52 @@ const initialTasks = [
 </div>
 
 <script>
-  const userRole = '{userRole}'; // Esto asegura que userRole esté disponible en el script del cliente
-  let tasks = {JSON.stringify(initialTasks)};
+  let tasks = [
+    {
+      id: 1,
+      title: "Revisar informes",
+      assignedTo: "Jefe",
+      status: "En progreso",
+    },
+    {
+      id: 2,
+      title: "Supervisar proyecto A",
+      assignedTo: "Supervisor",
+      status: "Pendiente",
+    },
+    {
+      id: 3,
+      title: "Analizar datos",
+      assignedTo: "Analista",
+      status: "Completada",
+    },
+    {
+      id: 4,
+      title: "Preparar presentación",
+      assignedTo: "Jefe",
+      status: "Pendiente",
+    },
+    {
+      id: 5,
+      title: "Coordinar equipo",
+      assignedTo: "Supervisor",
+      status: "En progreso",
+    },
+    {
+      id: 6,
+      title: "Recopilar información",
+      assignedTo: "Analista",
+      status: "En progreso",
+    },
+  ];
+
+  const userRole = "{userRole}"; // Esto asegura que userRole esté disponible en el script del cliente
 
   function renderTasks() {
-    const myTasksElement = document.getElementById('myTasks');
-    const teamTasksElement = document.getElementById('teamTasks');
-    
-    const myTasks = tasks.filter(task => task.assignedTo === userRole);
+    const myTasksElement = document.getElementById("myTasks");
+    const teamTasksElement = document.getElementById("teamTasks");
+
+    const myTasks = tasks.filter((task) => task.assignedTo === userRole);
     const teamTasks = getTeamTasks(userRole);
 
     myTasksElement.innerHTML = renderTaskList(myTasks, true);
@@ -47,76 +75,86 @@ const initialTasks = [
 
   function renderTaskList(taskList, isMyTasks) {
     if (taskList.length === 0) {
-      return '<p>No hay tareas para mostrar.</p>';
+      return "<p>No hay tareas para mostrar.</p>";
     }
 
     return `
       <ul>
-        ${taskList.map(task => `
+        ${taskList
+          .map(
+            (task) => `
           <li key="${task.id}">
-            <span class="${task.status === 'Completada' ? 'completed' : ''}">
+            <span class="${task.status === "Completada" ? "completed" : ""}">
               <strong>${task.title}</strong> - Estado: ${task.status}
             </span>
-            ${isMyTasks ? `
+            ${
+              isMyTasks
+                ? `
               <button class="edit" data-id="${task.id}">Editar</button>
               <button class="delete" data-id="${task.id}">Eliminar</button>
               <button class="toggle" data-id="${task.id}">
-                ${task.status === 'Completada' ? 'Reabrir' : 'Completar'}
+                ${task.status === "Completada" ? "Reabrir" : "Completar"}
               </button>
-            ` : ''}
+            `
+                : ""
+            }
           </li>
-        `).join('')}
+        `
+          )
+          .join("")}
       </ul>
     `;
   }
 
   function getTeamTasks(role) {
     switch (role) {
-      case 'Jefe':
-        return tasks.filter(task => task.assignedTo !== 'Jefe');
-      case 'Supervisor':
-        return tasks.filter(task => task.assignedTo === 'Analista');
-      case 'Analista':
+      case "Jefe":
+        return tasks.filter((task) => task.assignedTo !== "Jefe");
+      case "Supervisor":
+        return tasks.filter((task) => task.assignedTo === "Analista");
+      case "Analista":
       default:
         return [];
     }
   }
 
   function addEventListeners() {
-    document.querySelectorAll('.edit').forEach(button => {
-      button.addEventListener('click', editTask);
+    document.querySelectorAll(".edit").forEach((button) => {
+      button.addEventListener("click", editTask);
     });
 
-    document.querySelectorAll('.delete').forEach(button => {
-      button.addEventListener('click', deleteTask);
+    document.querySelectorAll(".delete").forEach((button) => {
+      button.addEventListener("click", deleteTask);
     });
 
-    document.querySelectorAll('.toggle').forEach(button => {
-      button.addEventListener('click', toggleTaskStatus);
+    document.querySelectorAll(".toggle").forEach((button) => {
+      button.addEventListener("click", toggleTaskStatus);
     });
   }
 
   function addTask(event) {
     event.preventDefault();
-    const titleInput = document.getElementById('newTaskTitle');
+    const titleInput = document.getElementById(
+      "newTaskTitle"
+    ) as HTMLInputElement;
     const title = titleInput.value.trim();
     if (title) {
       const newTask = {
         id: tasks.length + 1,
         title: title,
         assignedTo: userRole,
-        status: 'Pendiente'
+        status: "Pendiente",
       };
       tasks.push(newTask);
-      titleInput.value = '';
+      titleInput.value = "";
       renderTasks();
     }
   }
 
   function editTask(event) {
     const taskId = parseInt(event.target.dataset.id);
-    const task = tasks.find(t => t.id === taskId);
-    const newTitle = prompt('Editar tarea:', task.title);
+    const task = tasks.find((t) => t.id === taskId);
+    const newTitle = prompt("Editar tarea:", task.title);
     if (newTitle !== null) {
       task.title = newTitle.trim();
       renderTasks();
@@ -125,21 +163,21 @@ const initialTasks = [
 
   function deleteTask(event) {
     const taskId = parseInt(event.target.dataset.id);
-    tasks = tasks.filter(t => t.id !== taskId);
+    tasks = tasks.filter((t) => t.id !== taskId);
     renderTasks();
   }
 
   function toggleTaskStatus(event) {
     const taskId = parseInt(event.target.dataset.id);
-    const task = tasks.find(t => t.id === taskId);
-    task.status = task.status === 'Completada' ? 'Pendiente' : 'Completada';
+    const task = tasks.find((t) => t.id === taskId);
+    task.status = task.status === "Completada" ? "Pendiente" : "Completada";
     renderTasks();
   }
 
   // Inicialización
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     renderTasks();
-    document.getElementById('addTaskForm').addEventListener('submit', addTask);
+    document.getElementById("addTaskForm").addEventListener("submit", addTask);
   });
 </script>
 
@@ -149,19 +187,23 @@ const initialTasks = [
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
   }
+
   .task-list {
     background-color: #2c2c2c;
     border-radius: 8px;
     padding: 1rem;
   }
+
   h2 {
     color: rgb(var(--accent-light));
     margin-bottom: 1rem;
   }
+
   ul {
     list-style-type: none;
     padding: 0;
   }
+
   li {
     background-color: #3a3a3a;
     border-radius: 4px;
@@ -171,6 +213,7 @@ const initialTasks = [
     justify-content: space-between;
     align-items: center;
   }
+
   button {
     background-color: #4a4a4a;
     color: white;
@@ -180,17 +223,21 @@ const initialTasks = [
     cursor: pointer;
     margin-left: 0.5rem;
   }
+
   button:hover {
     background-color: #5a5a5a;
   }
+
   .completed {
     text-decoration: line-through;
     color: #888;
   }
+
   form {
     margin-top: 1rem;
     display: flex;
   }
+
   input[type="text"] {
     flex-grow: 1;
     padding: 0.5rem;

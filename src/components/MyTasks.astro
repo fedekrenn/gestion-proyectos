@@ -1,32 +1,63 @@
 ---
 const { userRole } = Astro.props;
 
-// Simulación de tareas
 const allTasks = [
-  { id: 1, title: 'Revisar informes', assignedTo: 'Jefe', status: 'En progreso' },
-  { id: 2, title: 'Supervisar proyecto A', assignedTo: 'Supervisor', status: 'Pendiente' },
-  { id: 3, title: 'Analizar datos', assignedTo: 'Analista', status: 'Completada' },
-  { id: 4, title: 'Preparar presentación', assignedTo: 'Jefe', status: 'Pendiente' },
-  { id: 5, title: 'Coordinar equipo', assignedTo: 'Supervisor', status: 'En progreso' },
-  { id: 6, title: 'Recopilar información', assignedTo: 'Analista', status: 'En progreso' },
+  {
+    id: 1,
+    title: "Revisar informes",
+    assignedTo: "Jefe",
+    status: "En progreso",
+  },
+  {
+    id: 2,
+    title: "Supervisar proyecto A",
+    assignedTo: "Supervisor",
+    status: "Pendiente",
+  },
+  {
+    id: 3,
+    title: "Analizar datos",
+    assignedTo: "Analista",
+    status: "Completada",
+  },
+  {
+    id: 4,
+    title: "Preparar presentación",
+    assignedTo: "Jefe",
+    status: "Pendiente",
+  },
+  {
+    id: 5,
+    title: "Coordinar equipo",
+    assignedTo: "Supervisor",
+    status: "En progreso",
+  },
+  {
+    id: 6,
+    title: "Recopilar información",
+    assignedTo: "Analista",
+    status: "En progreso",
+  },
 ];
 
-const myTasks = allTasks.filter(task => task.assignedTo === userRole);
+const myTasks = allTasks.filter((task) => task.assignedTo === userRole);
 ---
 
 <div class="task-list">
   <h2>Mis Tareas</h2>
-  {myTasks.length === 0 ? (
-    <p>No tienes tareas asignadas.</p>
-  ) : (
-    <ul>
-      {myTasks.map(task => (
-        <li key={task.id}>
-          <strong>{task.title}</strong> - Estado: {task.status}
-        </li>
-      ))}
-    </ul>
-  )}
+  {
+    myTasks.length === 0 ? (
+      <p>No tienes tareas asignadas.</p>
+    ) : (
+      <ul>
+        {myTasks.map((task) => (
+          <li>
+            <strong>{task.title}</strong> - Estado: {task.status}
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </div>
 
 <style>
@@ -35,14 +66,17 @@ const myTasks = allTasks.filter(task => task.assignedTo === userRole);
     border-radius: 8px;
     padding: 1rem;
   }
+
   h2 {
     color: rgb(var(--accent-light));
     margin-bottom: 1rem;
   }
+
   ul {
     list-style-type: none;
     padding: 0;
   }
+
   li {
     background-color: #3a3a3a;
     border-radius: 4px;

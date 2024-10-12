@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const initialTasks = [
   { id: 1, title: 'Revisar informes', assignedTo: 'Jefe', status: 'En progreso' },
