@@ -1,7 +1,7 @@
 {
   "name": "gestion-proyectos",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gestión de proyectos para equipos de trabajo ágiles",
   "author": {
     "name": "Federico Krenn",
@@ -16,9 +16,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^2.2.1",
-    "astro": "^4.16.19",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@astrojs/react": "^4.3.0",
+    "astro": "^5.13.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
