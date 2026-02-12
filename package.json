@@ -17,13 +17,8 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
-    "astro": "^5.16.6",
+    "astro": "^5.17.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "mdast-util-to-hast": "13.2.1"
-    }
   }
 }
